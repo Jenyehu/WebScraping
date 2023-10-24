@@ -16,10 +16,10 @@ class MercadoLibreScraper:
     def __init__(self, url):
         self.url = url
 
-    # Define a function to convert USD to NIO
-    # Definir una función para convertir USD a NIO
-    def convert_usd_to_nio(self, price_in_usd):
-        return round(price_in_usd * 36.2)
+    # Define a function to convert NIO to USD
+    # Definir una función para convertir NIO a USD
+    def convert_nio_to_usd(self, price_in_nio):
+        return round(price_in_nio / 36.2)
 
     # Define the scraping method
     # Definir el método de scraping
@@ -54,31 +54,27 @@ class MercadoLibreScraper:
             # Convertir el precio a int
             price = int(price.replace('.', ''))
 
-            # If the money symbol is USD, convert the price to NIO and store both prices
-            # Si el símbolo de dinero es USD, convertir el precio a NIO y almacenar ambos precios
-            if money_symbol == 'U$S':
-                price_nio = self.convert_usd_to_nio(price)
-                products.append((title, money_symbol, price, 'C$', price_nio))
+            # If the money symbol is C$, convert the price to USD and store both prices
+            # Si el símbolo de dinero es C$, convertir el precio a USD y almacenar ambos precios
+            if money_symbol == 'C$':
+                price_usd = self.convert_nio_to_usd(price)
+                products.append((title, money_symbol, price, 'U$S', price_usd))
             else:
                 products.append((title, money_symbol, price))
 
-        # Sort the products by NIO price in ascending order
-        # Ordenar los productos por precio NIO en orden ascendente
+        # Sort the products by USD price in ascending order
+        # Ordenar los productos por precio en USD en orden ascendente
         products.sort(key=lambda x: x[4] if len(x) == 5 else x[2])
 
         # Write the products to a text file
         # Escribir los productos en un archivo de texto
-        with open('products.txt', 'w') as f:
+        with open('productsDolarversion.txt', 'w') as f:
             for product in products:
                 if len(product) == 5:
                     f.write(f"{product[0].strip()} \nPrice: {product[1]} {
                             product[2]} ({product[3]} {product[4]})\n\n")
-                    f.write(f"{product[0].strip()} \nPrecio: {product[1]} {
-                            product[2]} ({product[3]} {product[4]})\n\n")
                 else:
                     f.write(f"{product[0].strip()} \nPrice: {
-                            product[1]} {product[2]}\n\n")
-                    f.write(f"{product[0].strip()} \nPrecio: {
                             product[1]} {product[2]}\n\n")
 
 
