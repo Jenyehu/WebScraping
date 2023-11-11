@@ -73,14 +73,9 @@ class MercadoLibreScraper:
                 if len(product) == 5:
                     f.write(f"{product[0].strip()} \nPrice: {product[1]} {
                             product[2]} ({product[3]} {product[4]})\n\n")
-                    f.write(f"{product[0].strip()} \nPrecio: {product[1]} {
-                            product[2]} ({product[3]} {product[4]})\n\n")
                 else:
                     f.write(f"{product[0].strip()} \nPrice: {
                             product[1]} {product[2]}\n\n")
-                    f.write(f"{product[0].strip()} \nPrecio: {
-                            product[1]} {product[2]}\n\n")
-
 
 # Define a class for automating browser actions with Selenium
 # Definir una clase para automatizar acciones del navegador con Selenium
